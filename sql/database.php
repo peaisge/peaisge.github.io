@@ -12,7 +12,7 @@ class Database {
             echo 'Connexion échouée : ' . $e->getMessage();
             exit(0);
         }
-        echo 'Connexion réussie';
+        //echo 'Connexion réussie';
         return $dbh;
     }   
 }

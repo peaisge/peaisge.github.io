@@ -23,22 +23,19 @@ class User{
     }
     
     public static function insertUser($dbh, $login, $password, $nom, $prenom, $birthdate, $email){
-        if (getUser($dbh, $login) == null){
+        if (User::getUser($dbh, $login) == null){
             $sth = $dbh->prepare("INSERT INTO `users` (`login`, `password`, `nom`, `prenom`, `birthdate`, `email`, `wedding`) VALUES(?,SHA1(?),?,?,?,?,?)");
             $sth->execute(array($login, $password, $nom, $prenom, $birthdate, $email, "NULL")); 
-            echo "C'est réussi";
+            echo "Votre compte a été ajouté, vous pouvez maintenant vous connecter";
         }
         else{
             echo "Ce login est déjà utilisé";
         }
     }
     
-    public static function testPassword($dbh, $login, $password){
-        if (getUser($dbh, $login) != null){
-            $mdp = getUser($dbh, $login) -> password;
-            return ($mdp == SHA1($password));
-        }
-        echo "Ce login n'est associé à aucun utilisateur";
+    public static function testPassword($dbh, $user, $password){
+        $mdp = $user -> password;
+        return ($mdp == SHA1($password));
     }
 }
 
