@@ -6,6 +6,8 @@ function logIn($dbh){
     if ($user != null && User::testPassword($dbh, $user, $_POST["password"])){
         echo "Bonjour $user->login";
         $_SESSION['loggedIn'] = true;
+        $_SESSION['login'] = $user->login;
+        $_SESSION['id'] = $user->id;
     }
 }
 

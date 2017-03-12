@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+<?php
+    session_start();
+?>
 <html lang="fr">
     <head>
         <meta charset="UTF-8"/> 
@@ -34,7 +37,7 @@
         <script type="text/javascript" src="js/bootstrap.min.js"></script><script src="js/highlight.js"></script>
         <script type="text/javascript" src="js/jquery.js"></script>
         <script type="text/javascript" src="js/main.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/plan.js"></script>
         
     </body>
 </html>

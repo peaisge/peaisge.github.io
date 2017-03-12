@@ -3,9 +3,19 @@
 
 @import "{{ site.theme }}";
 
-html { height: 100% }
-body { height: 100%; margin: 0; padding: 0 }
+html { 
+    height: 100%;
+}
+body { 
+    height: 100%; 
+    margin-left: 3%; 
+    margin-right: 0;
+    padding: 0 }
 
 #map-canvas {
     height:88%;
+}
+
+p span.droite{
+    float:right;
 }
