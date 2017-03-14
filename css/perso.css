@@ -19,3 +19,11 @@ body {
 p span.droite{
     float:right;
 }
+
+.controleOK{
+    color:#339966;
+}
+
+.controleNOT_OK{
+    color:'red';
+}

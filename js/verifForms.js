@@ -17,6 +17,42 @@ function verifLogin(champ){
     }
 }
 
+function existLogin(champ){
+   var xhr_object = null;
+   if (window.XMLHttpRequest){
+       xhr_object = new XMLHttpRequest();
+   }
+   else if (window.ActiveXObject){
+       xhr_object = new ActiveXObject("Microsoft.XMLHTTP");
+   }
+   else {
+       return true;
+   }
+   var url = 'index.php';
+   xhr_object.open("POST", url, true);
+   xhr_object.send("login="+escape(champ.value));
+   xhr_object.onreadystatechange = function(){
+       if (xhr_object.readyState == 4){
+           var reponse = xhr_object.reponseText;
+           var regSeparateur = new RegExp(";", "g");
+           var parties = reponse.split(regSeparateur);
+           if (parties[0] == "CONTROLE_LOGIN"){
+               var span = document.getElementById("controleLogin");
+               if (parties[1] == "OK"){
+                   span.innerHTML = "Login disponible";
+                   span.className = "controleOK";
+                   span.style.display = "block";
+                   return true;
+               }
+               span.innerHTML = "Login déjà utilisé";
+               span.className = "controleNOT_OK";
+               span.style.display = "block";
+               return false;
+           }
+       }
+   }
+}
+
 function verifMail(champ){
     var regex = /^[a-zA-Z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/;
     if (!regex.test(champ.value)){
@@ -119,6 +155,7 @@ function verifRegisterForm(f){
     var password1Ok = verifPassword(f.password1);
     var password2Ok = verifPassword(f.password2);
     if (loginOk && mailOk && prenomOk && nomOk && dateOk && password1Ok && password2Ok){
+        alert("Votre compte a été créé, vous pouvez maintenant vous connecter");
         return true;
     }
     else{
@@ -127,10 +164,10 @@ function verifRegisterForm(f){
     }
 }
 
-function verifLoginForm(){
-    var login = document.getElementById("login").value;
-    var mdp = document.getElementById("password").value;
-    if (login.length > 2 && mdp.length > 5){
+function verifLoginForm(f){
+    var loginOk = verifLogin(f.login);
+    var mdpOk = verifPassword(f.password);
+    if (loginOk && mdpOk){
         return true;
     }
     alert("Veuillez remplir correctement tous les champs");

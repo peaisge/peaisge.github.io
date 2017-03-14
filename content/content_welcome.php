@@ -1,5 +1,9 @@
+<!DOCTYPE html>
+<?php
+session_start();
+?>
 <div class="jumbotron">
-<h1>Titre qui ne depend pas de la page</h1>
+<h1>Titre qui ne dépend pas de la page</h1>
 <p>Détails supplémentaires qui ne dépendent pas de la page</p>
 </div>
 

@@ -91,12 +91,13 @@ function getPageTitle($askedPage){
 
 function registerForm(){
     echo <<<FIN
-    <form class="register-form" action="index.php?todo=login" method="post"
+    <form class="register-form" action="index.php" method="post"
         oninput="password2.setCustomValidity(password2.value != password1.value ? 'Les mots de passe diffèrent.' : '')" 
             onsubmit="return verifRegisterForm(this)">
         <p>
             <label for="login">Login</label>
-            <input id="login" type="text" required name="login" onblur="verifLogin(this)">
+            <input id="login" type="text" required name="login" onblur="verifLogin(this)&&existLogin(this)">
+            <span id="controleLogin" style="display:none" class="controleOK></span>
         </p>
         <p>
             <label for="email">E-mail</label>
@@ -112,7 +113,7 @@ function registerForm(){
         </p>
         <p>
             <label for="date">Date de naissance</label>
-            <input id="date" type="date" placeholder="aaaa-mm-jj" required name="date" value="$birthdate" onblur="verifDate(this)">
+            <input id="date" type="date" placeholder="aaaa-mm-jj" required name="date" onblur="verifDate(this)">
             <span id="dateError" style="color:red; display:none">Cette date n'existe pas</span>
         </p>
         <p>
@@ -134,9 +135,9 @@ FIN;
 
 function loginForm($askedPage){
     echo <<<FIN
-    <form class="login-form" action="index.php?todo=login&page=$askedPage" method="post" onsubmit="return verifLoginForm()">
-        <p><input id="login "type="text" name="login" placeholder="Login" required /></p>
-        <p><input id="password" type="password" name="password" placeholder="Mot de passe" required /></p>
+    <form class="login-form" action="index.php?todo=login&page=$askedPage" method="post" onsubmit="return verifLoginForm(this)">
+        <p><input id="login "type="text" name="login" placeholder="Login" required onblur="verifLogin(this)"/></p>
+        <p><input id="password" type="password" name="password" placeholder="Mot de passe" required onblur="verifPassword(this)"/></p>
         <p><input type="submit" class="boutonEnvoi" value="Valider" /></p>
         <p class="message">Pas encore inscrit ? <a href="#">Créez un compte</a></p>
     </form>
@@ -174,7 +175,7 @@ FIN;
               </div>
               <div class="modal-body form">
 FIN;
-                    registerForm($login, $email, $stringLogin);
+                    registerForm();
                     loginForm($askedPage);
                     echo <<<FIN
                 </div>

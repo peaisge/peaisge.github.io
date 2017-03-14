@@ -35,7 +35,7 @@ class User{
     }
     
     public static function testPassword($dbh, $user, $password){
-        $mdp = $user -> password;
+        $mdp = $user->password;
         return ($mdp == SHA1($password));
     }
 }
