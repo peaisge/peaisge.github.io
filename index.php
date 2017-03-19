@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <?php
     session_start();
     if (!isset($_SESSION['initiated'])) {
@@ -6,6 +5,7 @@
         $_SESSION['initiated'] = true;
     }
 ?>
+<!DOCTYPE html>
 <html>
     <?php
     if(isset($_POST["login"]) && $_POST["login"] != "" &&
@@ -20,13 +20,22 @@
         require 'sql/user.php';
         $user = User::getUser($dbh, $_POST['login']);
         if ($user == null){
-            User::insertUser($dbh, $_POST['login'], $_POST['password1'], 0, $_POST['nom'], $_POST['prenom'], $_POST['date'], $_POST['email']);
+            if (isset($_POST["tel"]) && $_POST["tel"] != ""){
+                $tel = $_POST["tel"];
+            }
+            else{
+                $tel = "NULL";
+            }
+            User::insertUser($dbh, $_POST['login'], $_POST['password1'], 0, $_POST['nom'], $_POST['prenom'], $_POST['date'], $_POST['email'], $tel);
+        }
+        else{
+            echo 'Login déjà utilisé';
         }
         $dbh = null;
     }
     require 'utilities/logInOut.php';
     if (!isset($_SESSION['login']) && $_GET["todo"] == "login"){
-        //print_r($_POST);
+        print_r($_POST);
         require 'sql/database.php';
         $dbh = Database::connect();        
         logIn($dbh, $_POST['login']);
@@ -64,11 +73,9 @@
             generateHTMLfooter();
             ?>
         </div>
-        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <script src="js/jquery.js"></script>
-        <!-- Include all compiled plugins (below), or include individual files as needed -->
-        <script src="js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="js/form.js"></script>
+        
+        <!-- Scripts pour les formulaires de connexion et d'inscription -->
+        <script src="js/form.js"></script>
         <script src="js/verifForms.js"></script>
 
     </body>
