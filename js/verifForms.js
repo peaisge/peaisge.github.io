@@ -1,3 +1,66 @@
+$(document).ready(function() {
+
+    $("#loginVu").hide();
+
+    /*$(".lien").click(function() {
+        var lien = "content/content_" + $(this).attr("id") + ".php";
+        var nomUtilisateur = $("#nom").val();
+        $.post(lien, {nom: nomUtilisateur},function(rep){
+        	$("#main").html(rep);
+        });
+    });
+    */
+
+    $("#login").keyup(function() {
+        var loginSaisi = $("#login").val();
+        $.post("../utilities/testUser.php", {login: loginSaisi}, function(rep) {
+            if (rep == "0") {//login non utilisé
+                $("#loginVu").hide();
+            } else {
+                $("#login").css("background-color", "red");
+                $("#loginVu").show();
+            }
+        })
+    });
+
+
+    /*$("#formFilm").submit(function() {
+        
+        var url = "http://www.omdbapi.com/?t="+$("#titre").val()+"&y=&plot=short&r=json";
+        //alert(url);
+        $.getJSON(url, function(data) {
+            $("#annee").val(data.Year);
+            $("#infoFilm").html(data.Plot);
+        });
+        return false;
+    }
+    );
+    */
+   
+    /*    $(".lien").click(function(){
+     
+     //$("#main").load("content/content_"+$(this).attr('id')+".php");
+     $.post("content/content_"+$(this).attr('id')+".php",{id:45,toto:'Olivier'},function(rep){
+     $("#main").html(rep);//colle la réponse dans le div d'id main
+     });
+     window.location.hash = $(this).attr('id');
+     return false;
+     });
+     
+     
+     $("#login").keyup(function(){
+     var loginX = $("#login").val(); 
+     $.post("scripts/testUser.php",{login:loginX},function(rep){
+     if(rep=="0"){//login OK
+     $("#login").css("background-color","green");
+     }else{
+     $("#login").css("background-color","red");               
+     }
+     });
+     });
+     */
+});
+
 function surligne(champ, erreur){
     if (erreur){
         champ.style.backgroundColor = "#fba";
@@ -18,39 +81,19 @@ function verifLogin(champ){
 }
 
 function existLogin(champ){
-   var xhr_object = null;
-   if (window.XMLHttpRequest){
-       xhr_object = new XMLHttpRequest();
-   }
-   else if (window.ActiveXObject){
-       xhr_object = new ActiveXObject("Microsoft.XMLHTTP");
-   }
-   else {
-       return true;
-   }
-   var url = 'index.php';
-   xhr_object.open("POST", url, true);
-   xhr_object.send("login="+escape(champ.value));
-   xhr_object.onreadystatechange = function(){
-       if (xhr_object.readyState == 4){
-           var reponse = xhr_object.reponseText;
-           var regSeparateur = new RegExp(";", "g");
-           var parties = reponse.split(regSeparateur);
-           if (parties[0] == "CONTROLE_LOGIN"){
-               var span = document.getElementById("controleLogin");
-               if (parties[1] == "OK"){
-                   span.innerHTML = "Login disponible";
-                   span.className = "controleOK";
-                   span.style.display = "block";
-                   return true;
-               }
-               span.innerHTML = "Login déjà utilisé";
-               span.className = "controleNOT_OK";
-               span.style.display = "block";
-               return false;
-           }
-       }
-   }
+    var loginSaisi = champ.value;
+    $.post("../utilities/testUser.php", {login: loginSaisi}, function(rep) {
+        if (rep == "0") {//login non utilisé
+            $("#loginVu").hide();
+            surligne(champ, false);
+            return true;
+        } 
+        else {
+            $("#loginVu").show();
+            surligne(champ, true);
+            return false;
+        }
+    });
 }
 
 function verifMail(champ){
@@ -65,8 +108,27 @@ function verifMail(champ){
    }
 }
 
+function verifTel(champ){
+    var regex = /(\+\d+(\s|-))?0\d(\s|-)?(\d{2}(\s|-)?){4}/;
+    var span = document.getElementById("telError");
+    if (champ.value.length > 0 && !regex.test(champ.value)){
+        surligne(champ, true);
+        if (span.style.display == "none"){
+            span.style.display = "block";
+        }
+        return false;
+    }
+    else{
+        surligne(champ, false);
+        if (span.style.display == "block"){
+            span.style.display = "none";
+        }
+        return true;        
+    }
+}
+
 function verifNames(champ){
-    var regex = /^([a-zA-Z]+(( |')[a-z]+)*)+([-]([a-zA-Z]+(( |')[a-z]+)*)+)*$/;
+    var regex = /^([A-zÀ-ÿ]+(( |')[a-zà-ÿ]+)*)+([-]([A-zÀ-ÿ]+(( |')[a-zà-ÿ]+)*)+)*$/;
     if (!regex.test(champ.value) || champ.value.length < 2){
         surligne(champ, true);
         return false;
@@ -148,13 +210,15 @@ function verifPasswordEquality(champ){
 
 function verifRegisterForm(f){
     var loginOk = verifLogin(f.login);
+    var loginLibre = existLogin(f.login);
     var mailOk = verifMail(f.email);
     var prenomOk = verifNames(f.prenom);
     var nomOk = verifNames(f.nom);
     var dateOk = verifDate(f.date);
+    var telOk = verifTel(f.tel);
     var password1Ok = verifPassword(f.password1);
     var password2Ok = verifPassword(f.password2);
-    if (loginOk && mailOk && prenomOk && nomOk && dateOk && password1Ok && password2Ok){
+    if (loginOk && mailOk && telOk && prenomOk && nomOk && dateOk && password1Ok && password2Ok){
         alert("Votre compte a été créé, vous pouvez maintenant vous connecter");
         return true;
     }
