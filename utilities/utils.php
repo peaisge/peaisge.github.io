@@ -16,6 +16,13 @@ function generateHTMLheader($title){
         
         <!-- CSS Form -->       
         <link href="css/form.css" rel="stylesheet">
+            
+        <!-- CSS Map -->
+        <link href="css/docs.min.css" rel="stylesheet">
+            
+        <!-- CSS Git -->
+        <link href="css/main.css" rel="stylesheet">
+
  
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -23,6 +30,17 @@ function generateHTMLheader($title){
           <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
           <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
+            
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="js/jquery.js"></script>
+        
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="js/bootstrap.min.js"></script>
+        
+        <!-- Supprimer le lag des clics sur mobile -->
+        <script src="js/fastclick.js"></script>
+
+        
     </head>
 FIN;
 }
@@ -91,13 +109,13 @@ function getPageTitle($askedPage){
 
 function registerForm(){
     echo <<<FIN
-    <form class="register-form" action="index.php" method="post"
+    <form class="register-form" action="" method="post"
         oninput="password2.setCustomValidity(password2.value != password1.value ? 'Les mots de passe diffèrent.' : '')" 
             onsubmit="return verifRegisterForm(this)">
         <p>
             <label for="login">Login</label>
             <input id="login" type="text" required name="login" onblur="verifLogin(this)&&existLogin(this)">
-            <span id="controleLogin" style="display:none" class="controleOK></span>
+            <span id="loginVu" style="color:red">Login utilisé</span>
         </p>
         <p>
             <label for="email">E-mail</label>
@@ -117,6 +135,12 @@ function registerForm(){
             <span id="dateError" style="color:red; display:none">Cette date n'existe pas</span>
         </p>
         <p>
+            <label for="tel">Téléphone</label>
+            <input id="tel" type="tel" pattern="^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$" 
+                placeholder="0XXXXXXXXX" name="tel" onblur="verifTel(this)">
+            <span id="telError" style="color:red; display:none">Entrez un numéro à 10 chiffres sans espace, ou laissez vide</span>
+        </p>
+        <p>
             <label for="password1">Mot de passe</label>
             <input id="password1" type="password" required name="password1" onblur="verifPassword(this)">
             <span id="mdpError" style="color:red; display:none">Le mot de passe doit contenir au moins 6 caractères</span>    
@@ -126,7 +150,7 @@ function registerForm(){
             <input id="password2" type="password" name="password2" onblur="verifPasswordEquality(this)">
             <span id="mdpEqualityError" style="color:red; display:none">Les deux mots de passe ne sont pas identiques</span>
         </p>
-        <input type="submit" class="boutonEnvoi"value="Identification">
+        <input type="submit" class="boutonEnvoi" value="Identification">
         <p class="message">Déjà inscrit ? <a href="#">Connectez-vous</a></p>
     </form>
 FIN;
@@ -135,7 +159,7 @@ FIN;
 
 function loginForm($askedPage){
     echo <<<FIN
-    <form class="login-form" action="index.php?todo=login&page=$askedPage" method="post" onsubmit="return verifLoginForm(this)">
+    <form class="login-form" action="?todo=login&page=$askedPage" method="post" onsubmit="return verifLoginForm(this)">
         <p><input id="login "type="text" name="login" placeholder="Login" required onblur="verifLogin(this)"/></p>
         <p><input id="password" type="password" name="password" placeholder="Mot de passe" required onblur="verifPassword(this)"/></p>
         <p><input type="submit" class="boutonEnvoi" value="Valider" /></p>
@@ -146,8 +170,7 @@ FIN;
 
 function generateMenu($askedPage, $status){
     echo <<<FIN
-    <!-- Static navbar -->
-    <div class="navbar-collapse collapse row">
+    <div class="collapse navbar-collapse row" id="bs-example-navbar-collapse-1">
         <ul class="nav nav-tabs">
 FIN;
     global $page_list;
@@ -159,8 +182,9 @@ FIN;
             echo "<li><a href='index.php?page=".$sstab['name']."'>".$sstab['menutitle']."</a></li>";
         }
     }
+    
     if ($status == 1 || $status == 0){
-        echo "<li style='float:right'><a>Déconnexion</a></li>";
+        echo "<li style='float:right'><a href='?todo=logout&page=".$askedPage."'>Déconnexion</a></li>";
     }
     else{
         echo "<li style='float:right'><a data-toggle='modal' data-target='#myModal'>Connexion</a></li>";
@@ -184,6 +208,22 @@ FIN;
         </div>
 FIN;
     }
+    if (isset($_SESSION['login']) && $_SESSION['login'] != ""){
+        echo <<<FIN
+        <li class='dropdown' style='float:right'>
+            <a class='dropdown-toggle' data-toggle='dropdown' role='button' aria-haspopup='true' 
+                aria-expanded='false'>Mon compte<span class='caret'></span></a>
+        <ul class="dropdown-menu">
+            <li><a href="#">Mes mariages</a></li>
+            <li><a href="#">Mes amis</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">Paramètres</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="#">One more separated link</a></li>
+        </ul>
+        </li>
+FIN;
+   }
     echo "</ul>";
     echo "</div>";
 }
