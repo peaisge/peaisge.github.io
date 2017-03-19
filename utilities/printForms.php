@@ -47,4 +47,4 @@ FIN;
 }
 ?>
 
-<script src="/Applications/MAMP/htdocs/Modal/peaisge.github.io/js/verifForms.js"></script>
+<script src="../js/verifForms.js"></script>
