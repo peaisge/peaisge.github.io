@@ -8,10 +8,11 @@ class User{
     public $prenom;
     public $birthdate;
     public $email;
+    public $tel;
     public $wedding;
     
     public function __toString(){
-        return "[$this->login] $this->prenom $this->nom, né le $this->birthdate, $this->email, pour le mariage $this->wedding, a les droits $this->id";
+        return "[$this->login] $this->prenom $this->nom, né le $this->birthdate, $this->email, $this->tel, pour le mariage $this->wedding, a les droits $this->id";
     }
     
     public static function getUser($dbh, $login){
@@ -23,10 +24,10 @@ class User{
         return $user;
     }
     
-    public static function insertUser($dbh, $login, $password, $id, $nom, $prenom, $birthdate, $email){
+    public static function insertUser($dbh, $login, $password, $id, $nom, $prenom, $birthdate, $email, $tel){
         if (User::getUser($dbh, $login) == null){
-            $sth = $dbh->prepare("INSERT INTO `users` (`login`, `password`, `id`, `nom`, `prenom`, `birthdate`, `email`, `wedding`) VALUES(?,SHA1(?),?,?,?,?,?,?)");
-            $sth->execute(array($login, $password, $id, $nom, $prenom, $birthdate, $email, "NULL")); 
+            $sth = $dbh->prepare("INSERT INTO `users` (`login`, `password`, `id`, `nom`, `prenom`, `birthdate`, `email`, `tel`, `wedding`) VALUES(?,SHA1(?),?,?,?,?,?,?,?)");
+            $sth->execute(array($login, $password, $id, $nom, $prenom, $birthdate, $email, $tel, "NULL")); 
             echo "Votre compte a été ajouté, vous pouvez maintenant vous connecter";
         }
         else{
