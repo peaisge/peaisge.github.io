@@ -1,8 +1,3 @@
----
----
-
-@import "{{ site.theme }}";
-
 html { 
     height: 100%;
 }
@@ -13,17 +8,14 @@ body {
     padding: 0 }
 
 #map-canvas {
-    height:88%;
+    margin-right: 10px;
+    height: 470px;
+}
+
+#container{
+    margin-right: 10px
 }
 
 p span.droite{
     float:right;
-}
-
-.controleOK{
-    color:#339966;
-}
-
-.controleNOT_OK{
-    color:'red';
 }
