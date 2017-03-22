@@ -8,11 +8,7 @@ var infowindowMobile = new google.maps.InfoWindow({
                                             content: "<b>Votre position</b>"
                                             });
 
-window.addEventListener('load', function(){
-    new FastClick(document.body);
-}, false);
-
-$(document).ready(function(){
+function afficheCarte() {
     var map;
     var lat = 48.858565;
     var lng = 2.347198;
@@ -29,6 +25,11 @@ $(document).ready(function(){
     marker.addListener('click', function() {
                        infowindowStatique.open(map, marker);
                        });
-})
+}
+
+jQuery("#mesboutons .btn").click(function(){
+        jQuery("#mesboutons .btn").removeClass('active');
+        jQuery(this).toggleClass('active'); 
+});
 
 
