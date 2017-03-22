@@ -1,4 +1,5 @@
 var watchId;
+var map;
 
 var infowindowStatique = new google.maps.InfoWindow({
                                             content: "<b>Le lieu du mariage</b>"
@@ -12,20 +13,17 @@ window.addEventListener('load', function(){
     new FastClick(document.body);
 }, false);
             
-$(window).on('hashchange', route);
-
-function afficheCarteStatique(){
-    var mapId = navigator.geolocation.getCurrentPosition(onSuccessStatique, onError, {
+function afficheCarte(){
+    navigator.geolocation.getCurrentPosition(onSuccessStatique, onError, {
                                     maximumAge: 10000, timeout: 300000, enableHighAccuracy: true
                                 });
     google.maps.event.addDomListener(window, 'load', onSuccessStatique); 
 }
 
-function afficheCarteMobile(){
+function geolocaliserMap(){
     watchId = navigator.geolocation.watchPosition(onSuccessMobile, onError, {
                                     maximumAge: 10000, timeout: 300000, enableHighAccuracy: true
                                 });
-    google.maps.event.addDomListener(window, 'load', onSuccessMobile);
 }
 
 function arretGeolocalisation(){
@@ -39,11 +37,11 @@ function onSuccessStatique(){
     //Google Maps
     var myLatlng = new google.maps.LatLng(lat,lng);
     var mapOptions = {zoom: 16, center: myLatlng};
-    var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+    map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
     var marker = new google.maps.Marker({
                                         position: myLatlng,
                                         map: map,
-                                        title : "Centre"
+                                        title : "Lieu du mariage"
                                         });
     marker.addListener('click', function() {
                        infowindowStatique.open(map, marker);
@@ -53,19 +51,17 @@ function onSuccessStatique(){
 function onSuccessMobile(position) {
     var lat = position.coords.latitude;
     var lng = position.coords.longitude;
-    
-    //Google Maps
-    var myLatlng = new google.maps.LatLng(lat,lng);
-    var mapOptions = {zoom: 16, center: myLatlng};
-    var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+    var myLatlng = new google.maps.LatLng(lat, lng);
+    map.panTo(myLatlng);
     var marker = new google.maps.Marker({
                                         position: myLatlng,
                                         map: map,
-                                        title : "Centre"
+                                        title : "Ma position"
                                         });
     marker.addListener('click', function() {
                        infowindowMobile.open(map, marker);
                        });
+    arretGeolocalisation();
 }
 
 function onError(error) {
@@ -79,52 +75,8 @@ function onError(error) {
         case error.TIMEOUT:
             alert("Le service n'a pas répondu à temps");
             break;
-    }
-}
-
-function route(){
-    var page, hash = window.location.hash;
-    switch(hash){
-        case "#carte-site":
-            window.onload = afficheCarteStatique();
-            break;
-            
-        case "#carte-geoloc":
-            window.onload = afficheCarteMobile();
-            break;
-        
-        case "#destroy-geoloc":
-            window.onload = arretGeolocalisation();
-            break;
-            
-        //case "#reglages":
-        //    $('#map-canvas').html("");
-        //    $.get('js/templates.html', function(templates){
-        //        page = $(templates).filter('#tpl-reglages').html();
-        //        $('#container').html(page);
-        //    }, 'html');
-        //    break;
-            
-        //case "#profil":
-        //   $('#map-canvas').html("");
-        //    $.get('js/templates.html', function(templates){
-        //        page = $(templates).filter('#tpl-profil').html();
-        //        $('#container').html(page);
-        //    }, 'html');
-        //    break;
-           
-        default:
-            window.onload = afficheCarteStatique();
+        case error.UNKNOWN_ERROR:
+            alert("Erreur inconnue");
             break;
     }
 }
-route();
-
-jQuery("#mesboutons .btn").click(function(){
-        jQuery("#mesboutons .btn").removeClass('active');
-        jQuery(this).toggleClass('active'); 
-});
-
-
-
-
