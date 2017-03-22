@@ -10,6 +10,9 @@ function generateHTMLheader($title){
  
         <!-- CSS Bootstrap -->
         <link href="css/bootstrap.min.css" rel="stylesheet">
+        
+        <!-- CSS Font-awesome -->
+        <link href="font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet">
  
         <!-- CSS Perso -->
         <link href="css/perso.css" rel="stylesheet">
@@ -47,6 +50,7 @@ FIN;
 
 function generateHTMLfooter(){
     echo <<<FIN
+    <br>
     <div id="footer" class="col-lg-8 col-lg-offset-2 text-center">
         <i class="fa fa-envelope-o fa-3x sr-contact"></i>
         <p>Nous contacter</p>
