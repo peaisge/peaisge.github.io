@@ -20,7 +20,7 @@ $(document).ready(function() {
                 $("#login").css("background-color", "red");
                 $("#loginVu").show();
             }
-        })
+        });
     });
 
 
@@ -70,8 +70,11 @@ function surligne(champ, erreur){
 }
 
 function verifLogin(champ){
-    if (champ.value.length < 2 || champ.value.length > 30){
+    if (champ.value.length == 1 || champ.value.length > 30){
         surligne(champ, true);
+        return false;
+    }
+    else if(champ.value.length == 0){
         return false;
     }
     else{
@@ -98,8 +101,11 @@ function existLogin(champ){
 
 function verifMail(champ){
     var regex = /^[a-zA-Z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/;
-    if (!regex.test(champ.value)){
+    if (champ.value.length > 0 && !regex.test(champ.value)){
         surligne(champ, true);
+        return false;
+    }
+    else if(champ.value.length == 0){
         return false;
     }
     else{
@@ -133,6 +139,9 @@ function verifNames(champ){
         surligne(champ, true);
         return false;
     }
+    else if(champ.value.length == 0){
+        return false;
+    }
     else{
         surligne(champ, false);
         return true;
@@ -145,9 +154,9 @@ function verifDate(champ){
     var a = date.substring(0,4);
     var m = date.substring(5,7);
     var j = date.substring(8,10);
-    if (isNaN(j)|| j<1 || j>31 ||
+    if (champ.value.length > 0 && (isNaN(j)|| j<1 || j>31 ||
             isNaN(m) || m<1 || m>12 ||
-            isNaN(a) || a<1900 || a>2017){
+            isNaN(a) || a<1900 || a>2017)){
         surligne(champ, true);
         return false;
     }
@@ -156,11 +165,14 @@ function verifDate(champ){
     var m2 = date2.getMonth() + 1;
     var a2 = date2.getFullYear();
     if (a2<=100) {a2 = 1900+a2}
-    if (j!=j2 || m!=m2 || a!=a2) {
+    if (champ.value.length > 0 && (j!=j2 || m!=m2 || a!=a2)) {
         surligne(champ, true);
         if (divDate.style.display == "none"){
             divDate.style.display = "block";
         }
+        return false;
+    }
+    if(champ.value.length == 0){
         return false;
     }
     if (divDate.style.display == "block"){
@@ -177,6 +189,9 @@ function verifPassword(champ){
         if (div.style.display == "none"){
             div.style.display = "block";
         }
+        return false;
+    }
+    else if(champ.value.length == 0){
         return false;
     }
     else{
