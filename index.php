@@ -35,7 +35,7 @@
     }
     require 'utilities/logInOut.php';
     if (!isset($_SESSION['login']) && $_GET["todo"] == "login"){
-        print_r($_POST);
+        //print_r($_POST);
         require 'sql/database.php';
         $dbh = Database::connect();        
         logIn($dbh, $_POST['login']);
@@ -61,7 +61,7 @@
             if (!isset($_SESSION['status'])) {
                 $_SESSION['status'] = -1;
             }
-            print_r($_SESSION);
+            //print_r($_SESSION);
             if ($authorized){
                 generateMenu($askedPage, $_SESSION['status']);
                 require "content/content_$askedPage.php";

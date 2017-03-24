@@ -26,6 +26,12 @@ function geolocaliserMap(){
                                 });
 }
 
+function recentrerMap(){
+    navigator.geolocation.getCurrentPosition(onSuccessRecentrer, onError, {
+                                    maximumAge: 10000, timeout: 300000, enableHighAccuracy: true
+                                });
+}
+
 function arretGeolocalisation(){
     navigator.geolocation.clearWatch(watchId);
 }
@@ -38,6 +44,21 @@ function onSuccessStatique(){
     var myLatlng = new google.maps.LatLng(lat,lng);
     var mapOptions = {zoom: 16, center: myLatlng};
     map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+    var marker = new google.maps.Marker({
+                                        position: myLatlng,
+                                        map: map,
+                                        title : "Lieu du mariage"
+                                        });
+    marker.addListener('click', function() {
+                       infowindowStatique.open(map, marker);
+                       });
+}
+
+function onSuccessRecentrer(){
+    var lat = 48.858565;
+    var lng = 2.347198;
+    var myLatlng = new google.maps.LatLng(lat,lng);
+    map.panTo(myLatlng);
     var marker = new google.maps.Marker({
                                         position: myLatlng,
                                         map: map,
