@@ -54,7 +54,7 @@ function generateHTMLfooter(){
     <div id="footer" class="col-lg-8 col-lg-offset-2 text-center">
         <i class="fa fa-envelope-o fa-3x sr-contact"></i>
         <p>Nous contacter</p>
-        <p><a href="mailto:modalweb.contact@gmail.com">modalweb.contact@gmail.com</a></p>
+        <p><a href="mailto:mo—dalweb.contact@gmail.com">modalweb.contact@gmail.com</a></p>
     </div>
 FIN;
 }
@@ -118,12 +118,13 @@ function registerForm(){
             onsubmit="return verifRegisterForm(this)">
         <p>
             <label for="login">Login</label>
-            <input id="login" type="text" required name="login" onblur="verifLogin(this)&&existLogin(this)">
+            <input id="login" type="text" required name="login">
+<!--            <input id="login" type="text" required name="login" onblur="verifLogin(this)&&existLogin(this)">-->
             <span id="loginVu" style="color:red">Login utilisé</span>
         </p>
         <p>
             <label for="email">E-mail</label>
-            <input id="email" type="email" required name="email" onblur="verifMail(this)">
+            <input id="email" type="email" required name="email">
         </p>
         <p>
             <label for="prenom">Prénom</label>
@@ -164,7 +165,7 @@ FIN;
 function loginForm($askedPage){
     echo <<<FIN
     <form class="login-form" action="?todo=login&page=$askedPage" method="post" onsubmit="return verifLoginForm(this)">
-        <p><input id="login "type="text" name="login" placeholder="Login" required onblur="verifLogin(this)"/></p>
+        <p><input id="login-connexion" type="text" name="login-connexion" placeholder="Login" required onblur="verifLogin(this)"/></p>
         <p><input id="password" type="password" name="password" placeholder="Mot de passe" required onblur="verifPassword(this)"/></p>
         <p><input type="submit" class="boutonEnvoi" value="Valider" /></p>
         <p class="message">Pas encore inscrit ? <a href="#">Créez un compte</a></p>

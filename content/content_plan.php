@@ -1,5 +1,4 @@
 <?php
-session_start();
 $API_key = "AIzaSyAo2khzYz_-UH7axF6npJSeV6Elcv_nmN0";
 ?>
 <!DOCTYPE html>

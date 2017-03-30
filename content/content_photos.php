@@ -1,6 +1,5 @@
 <?php
-    session_start();
-    if ($_SESSION['id'] == 1){
+    if ($_SESSION['status'] == 1){
         
     }
     else{

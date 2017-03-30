@@ -38,7 +38,7 @@
         //print_r($_POST);
         require 'sql/database.php';
         $dbh = Database::connect();        
-        logIn($dbh, $_POST['login']);
+        logIn($dbh, $_POST['login-connexion']);
         $dbh = null;
     }
     if ($_GET["todo"] == "logout"){

@@ -2,7 +2,7 @@
 session_start();
 
 function logIn($dbh, $login){
-    require '/Applications/MAMP/htdocs/Modal/peaisge.github.io/sql/user.php';
+    require 'sql/user.php';
     $user = User::getUser($dbh, $login);
     if ($user != null && User::testPassword($dbh, $user, $_POST["password"])){
         //echo 'Connexion login réussie'; 

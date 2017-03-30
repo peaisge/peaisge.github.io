@@ -1,6 +1,3 @@
-<?php
-session_start();
-?>
 <!DOCTYPE html>
 <div class="jumbotron">
 <h1>Titre qui ne depend pas de la page</h1>

@@ -1,5 +1,6 @@
 $(document).ready(function() {
-
+    var loginOk, emailOk;
+    
     $("#loginVu").hide();
 
     /*$(".lien").click(function() {
@@ -13,16 +14,46 @@ $(document).ready(function() {
 
     $("#login").keyup(function() {
         var loginSaisi = $("#login").val();
-        $.post("../utilities/testUser.php", {login: loginSaisi}, function(rep) {
-            if (rep == "0") {//login non utilisé
-                $("#loginVu").hide();
-            } else {
-                $("#login").css("background-color", "red");
+        $.post("utilities/testUser.php", {login: loginSaisi}, function(rep) {
+            if (rep == "1"){
+                $("#login").css('background-color','#fba');
                 $("#loginVu").show();
+                loginOk = false;
+            }
+            else {//login non utilisé
+                if (loginSaisi.length === 1 || loginSaisi.length > 30){
+                    $("#login").css('background-color','#fba');
+                    loginOk = false;
+                }
+                else if (loginSaisi.length === 0){
+                    $("#login").css('background-color','rgb(242, 242, 242');
+                    loginOk = false;
+                }
+                else{
+                    $("#loginVu").hide();
+                    $("#login").css('background-color','rgb(242, 242, 242');
+                    loginOk = true;
+                } 
             }
         });
     });
-
+    
+    $("#email").keyup(function() {
+    var emailSaisi = $("#email").val();
+    var regex = /^[a-zA-Z0-9._-]+@[a-z0-9._-]{2,}\.[a-z]{2,4}$/;
+    if (emailSaisi.length > 0 && !regex.test(emailSaisi)){
+        $("#email").css('background-color','#fba');
+        emailOk = false;
+    }
+    else if(emailSaisi.length == 0){
+        $("#email").css('background-color','rgb(242, 242, 242');
+        emailOk =  false;
+    }
+    else{
+        $("#email").css('background-color','rgb(242, 242, 242');
+        emailOk = true;
+   }
+    });
 
     /*$("#formFilm").submit(function() {
         
@@ -85,7 +116,7 @@ function verifLogin(champ){
 
 function existLogin(champ){
     var loginSaisi = champ.value;
-    $.post("../utilities/testUser.php", {login: loginSaisi}, function(rep) {
+    $.post("utilities/testUser.php", {login: loginSaisi}, function(rep) {
         if (rep == "0") {//login non utilisé
             $("#loginVu").hide();
             surligne(champ, false);
