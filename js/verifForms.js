@@ -1,6 +1,63 @@
 $(document).ready(function() {
-    var loginOk, emailOk, prenomOk, nomOk, telOk, dateOk, password1Ok, password2Ok;
+    
+    var loginConnexionOk, passwordOk;
+    loginConnexionOk = false;
+    passwordOk = false;
+    
+    $("#loginNonVu").hide();
+    $("#mauvaisMdp").hide();
+    
+    $("#login-connexion").keyup(function() {
+        var loginSaisi = $("#login-connexion").val();
+        $.post("utilities/testUser.php", {login: loginSaisi}, function(rep) {
+            if (rep == "0"){//login inexistant
+                $("#login-connexion").css('background-color','#fba');
+                $("#loginNonVu").show();
+                loginConnexionOk = false;
+            }
+            else {//login utilisé
+                $("#login-connexion").css('background-color','rgb(242, 242, 242)');
+                $("#loginNonVu").hide();
+                loginConnexionOk = true;
+            }
+        });
+    });
+    
+    $("password").keyup(function() {
+        var loginSaisi = $("#login-connexion").val();
+        var passwordSaisi = $("#password").val();
+        $.post("utilities/testPassword.php", {login: loginSaisi, password: passwordSaisi}, function(rep) {
+            if (rep == "0"){//mauvais mot de passe
+               $("#password").css('background-color','#fba'); 
+               $("mauvaisMdp").show();
+               passwordOk = false;
+            }
+            else{
+               $("#password").css('background-color','rgb(242, 242, 242)');
+               $("mauvaisMdp").hide();
+               passwordOk = true;
+            }
+        });
+    });
+    
+    $("#loginForm").submit(function(event) {
+        if (loginConnexionOk && passwordOk){
+            alert("Vous êtes maintenant connecté");
+            return;
+        }
+        alert("Login ou mot de passe erroné");
+        event.preventDefault();
+    });    
+    
+    var loginOk, emailOk, prenomOk, nomOk, dateOk, telOk, password1Ok, password2Ok;
+    loginOk = false;
+    emailOk = false;
+    prenomOk = false;
+    nomOk = false;
+    dateOk = false;
     telOk = true;
+    password1Ok = false;
+    password2Ok = false;
     
     $("#loginVu").hide();
     $("#dateError").hide();
@@ -38,6 +95,9 @@ $(document).ready(function() {
                 else{
                     $("#login").css('background-color','rgb(242, 242, 242)');
                     loginOk = true;
+                    if (loginOk && emailOk && prenomOk && nomOk && dateOk && telOk && password1Ok && password2Ok){
+                        $("#register").prop('disabled', false);
+                    }
                 } 
             }
         });
@@ -57,6 +117,9 @@ $(document).ready(function() {
         else{
             $("#email").css('background-color','rgb(242, 242, 242)');
             emailOk = true;
+            if (loginOk && emailOk && prenomOk && nomOk && dateOk && telOk && password1Ok && password2Ok){
+                $("#register").prop('disabled', false);
+            }
        }
     });
     
@@ -74,7 +137,10 @@ $(document).ready(function() {
         else{
             $("#prenom").css('background-color','rgb(242, 242, 242)');
             prenomOk = true;
-       }
+            if (loginOk && emailOk && prenomOk && nomOk && dateOk && telOk && password1Ok && password2Ok){
+                $("#register").prop('disabled', false);
+            }
+        }
     });
 
     $("#nom").keyup(function() {
@@ -91,7 +157,10 @@ $(document).ready(function() {
         else{
             $("#nom").css('background-color','rgb(242, 242, 242)');
             nomOk = true;
-       }
+            if (loginOk && emailOk && prenomOk && nomOk && dateOk && telOk && password1Ok && password2Ok){
+                $("#register").prop('disabled', false);
+            }
+        }
     });
     
     $("#date").keyup(function() {
@@ -127,7 +196,10 @@ $(document).ready(function() {
                 $("#dateError").hide();
                 $("#date").css('background-color','rgb(242, 242, 242)');
                 dateOk = true;
-            }
+                if (loginOk && emailOk && prenomOk && nomOk && dateOk && telOk && password1Ok && password2Ok){
+                    $("#register").prop('disabled', false);
+                }
+        }
         }
     });
 
@@ -143,12 +215,18 @@ $(document).ready(function() {
             $("#telError").hide();
             $("#tel").css('background-color','rgb(242, 242, 242)');
             telOk = true;
+            if (loginOk && emailOk && prenomOk && nomOk && dateOk && telOk && password1Ok && password2Ok){
+                $("#register").prop('disabled', false);
+            }
         }
         else{
             $("#telError").hide();
             $("#tel").css('background-color','rgb(242, 242, 242)');
             telOk = true;
-       }
+            if (loginOk && emailOk && prenomOk && nomOk && dateOk && telOk && password1Ok && password2Ok){
+                $("#register").prop('disabled', false);
+            }
+        }
     });
     
     $("#password1").keyup(function() {
@@ -167,35 +245,62 @@ $(document).ready(function() {
             $("#mdpError").hide();
             $("#password1").css('background-color','rgb(242, 242, 242)');
             password1Ok = true;
-       }
+            if (loginOk && emailOk && prenomOk && nomOk && dateOk && telOk && password1Ok && password2Ok){
+                $("#register").prop('disabled', false);
+            }
+        }
     });
     
     $("#password2").keyup(function() {
         var mdp1 = $("#password1").val();
         var mdp2 = $("#password2").val();
-        if (mdp1 != mdp2){
+        if (mdp2.length == 0){
+            $("#mdpEqualityError").hide();
+            $("#password2").css('background-color','rgb(242, 242, 242)');
+            password2Ok = false;
+        }
+        else if (mdp2.length < 6){
+            $("#mdpEqualityError").hide();
+            $("#password2").css('background-color','#fba');
+            password2Ok = false;
+        }
+        else if (mdp1 != mdp2){
             $("#mdpEqualityError").show();
             $("#password2").css('background-color','#fba');
             password2Ok = false;
         }
-        else{
+        else {
             $("#mdpEqualityError").hide();
             $("#password2").css('background-color','rgb(242, 242, 242)');
-            password1Ok = true;
+            password2Ok = true;
+            if (loginOk && emailOk && prenomOk && nomOk && dateOk && telOk && password1Ok && password2Ok){
+                alert("loginOk="+ loginOk+ ", emailOk="+ emailOk+ ", prenomOk="+ prenomOk+ ", nomOk="+ nomOk+ ", dateOk="+ dateOk+ ", telOk="+ telOk+ ", password1Ok="+ password1Ok+ ",password2Ok="+ password2Ok);
+                $("#register").prop('disabled', false); 
+            }
         }
     });
     
-    var bienRempli = loginOk && emailOk && prenomOk && nomOk && dateOk && telOk && password1Ok && password2Ok;
+    $("#registerForm").submit(function(event) {
+        if (loginOk && emailOk && prenomOk && nomOk && dateOk && telOk && password1Ok && password2Ok){
+            alert("Votre compte a été créé, vous pouvez maintenant vous connecter");
+            return;
+        }
+        alert("Veuillez remplir correctement tous les champs");
+        event.preventDefault();
+    });
     
-    $("#register").click(function(){
+    /*function verifRegisterForm(){
+        var bienRempli = loginOk && emailOk && prenomOk && nomOk && dateOk && telOk && password1Ok && password2Ok;
         if (bienRempli){
             alert("Votre compte a été créé, vous pouvez maintenant vous connecter");
+            return true;
         }
-        else {
-            alert("loginOk="+ loginOk+ ", emailOk="+ emailOk+ ", prenomOk="+ prenomOk+ ", nomOk="+ nomOk+ ", dateOk="+ dateOk+ ", telOk="+ telOk+ ", password1Ok="+ password1Ok+ ", password2Ok="+ password2Ok);
+        else{
+            alert("Veuillez remplir correctement tous les champs");
+            return false;
         }
-    });
-
+    }*/
+    
     /*$("#formFilm").submit(function() {
         
         var url = "http://www.omdbapi.com/?t="+$("#titre").val()+"&y=&plot=short&r=json";

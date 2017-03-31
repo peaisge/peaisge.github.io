@@ -113,7 +113,7 @@ function getPageTitle($askedPage){
 
 function registerForm(){
     echo <<<FIN
-    <form class="register-form" action="" method="post"
+    <form id="registerForm" class="register-form" action="" method="post"
         oninput="password2.setCustomValidity(password2.value != password1.value ? 'Les mots de passe diffèrent.' : '')" 
     >
         <p>
@@ -163,9 +163,15 @@ FIN;
 
 function loginForm($askedPage){
     echo <<<FIN
-    <form class="login-form" action="?todo=login&page=$askedPage" method="post" onsubmit="return verifLoginForm(this)">
-        <p><input id="login-connexion" type="text" name="login-connexion" placeholder="Login" required onblur="verifLogin(this)"/></p>
-        <p><input id="password" type="password" name="password" placeholder="Mot de passe" required onblur="verifPassword(this)"/></p>
+    <form id="loginForm" class="login-form" action="?todo=login&page=$askedPage" method="post">
+        <p>
+            <input id="login-connexion" type="text" name="login-connexion" placeholder="Login" required/>
+            <span id="loginNonVu" style="color:red">Ce login n'existe pas</span>
+        </p>
+        <p>
+            <input id="password" type="password" name="password" placeholder="Mot de passe" required/>
+            <span id="mauvaisMdp" style="color:red">Mauvais mot de passe</span>
+        </p>
         <p><input type="submit" class="boutonEnvoi" value="Valider" /></p>
         <p class="message">Pas encore inscrit ? <a href="#">Créez un compte</a></p>
     </form>

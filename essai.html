@@ -1,31 +1,19 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <style>
-       #map {
-        height: 400px;
-        width: 100%;
-       }
-    </style>
+    
   </head>
   <body>
-    <h3>My Google Maps Demo</h3>
-    <div id="map"></div>
+    <h3>Essai Java Script</h3>
     <script>
-      function initMap() {
-        var uluru = {lat: -25.363, lng: 131.044};
-        var map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 4,
-          center: uluru
-        });
-        var marker = new google.maps.Marker({
-          position: uluru,
-          map: map
-        });
-      }
-    </script>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAo2khzYz_-UH7axF6npJSeV6Elcv_nmN0&callback=initMap">
+        var a = true;
+        var b = false;
+        var et = a && b;
+        document.write(et);
+        b = true;
+        document.write(et);
+        var et = a && b;
+        document.write(et);
     </script>
   </body>
 </html>

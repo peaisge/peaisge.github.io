@@ -40,5 +40,3 @@ class User{
         return ($mdp == SHA1($password));
     }
 }
-
-
