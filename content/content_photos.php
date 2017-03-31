@@ -6,7 +6,6 @@
         
     }
 ?>
-<!DOCTYPE html>
 <div class="jumbotron margin">
     <h1>Titre qui ne depend pas de la page</h1>
     <p>Détails supplémentaires qui ne dépendent pas de la page</p>

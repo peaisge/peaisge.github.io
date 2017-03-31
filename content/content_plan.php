@@ -1,7 +1,6 @@
 <?php
 $API_key = "AIzaSyAo2khzYz_-UH7axF6npJSeV6Elcv_nmN0";
 ?>
-<!DOCTYPE html>
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=true"></script>
 <div id="container">
     <br/>

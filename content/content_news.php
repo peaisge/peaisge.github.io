@@ -1,7 +1,7 @@
 <?php
 $hotel_list = array(array(
         "nom1" => "Hôtel B.Bleu",
-        "adresse1" => "137 chemin de Molly,69230 Saint-Genis-Laval",
+        "adresse1" => "137 chemin de Molly, 69230 Saint-Genis-Laval",
         "prix1" => "75€",
         "temps1" => "25 secondes",
         "nom2" => "Gîte La Clé des Artistes",
