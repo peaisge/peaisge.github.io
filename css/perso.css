@@ -31,3 +31,11 @@ p span.droite{
 p span.droite{
     float:right;
 }
+
+.correct{
+    background-color: rgb(242, 242, 242);
+}
+
+.incorrect{
+    background-color: #fba;
+}
