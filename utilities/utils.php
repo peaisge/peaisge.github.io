@@ -115,11 +115,10 @@ function registerForm(){
     echo <<<FIN
     <form class="register-form" action="" method="post"
         oninput="password2.setCustomValidity(password2.value != password1.value ? 'Les mots de passe diffèrent.' : '')" 
-            onsubmit="return verifRegisterForm(this)">
+    >
         <p>
             <label for="login">Login</label>
             <input id="login" type="text" required name="login">
-<!--            <input id="login" type="text" required name="login" onblur="verifLogin(this)&&existLogin(this)">-->
             <span id="loginVu" style="color:red">Login utilisé</span>
         </p>
         <p>
@@ -128,34 +127,34 @@ function registerForm(){
         </p>
         <p>
             <label for="prenom">Prénom</label>
-            <input id="prenom" type="text" required name="prenom" onblur="verifNames(this)">
+            <input id="prenom" type="text" required name="prenom">
         </p>
         <p>
             <label for="nom">Nom</label>
-            <input id="nom" type="text" required name="nom" onblur="verifNames(this)">
+            <input id="nom" type="text" required name="nom">
         </p>
         <p>
             <label for="date">Date de naissance</label>
-            <input id="date" type="date" placeholder="aaaa-mm-jj" required name="date" onblur="verifDate(this)">
+            <input id="date" type="date" placeholder="aaaa-mm-jj" required name="date">
             <span id="dateError" style="color:red; display:none">Cette date n'existe pas</span>
         </p>
         <p>
             <label for="tel">Téléphone</label>
             <input id="tel" type="tel" pattern="^((\+\d{1,3}(-| )?\(?\d\)?(-| )?\d{1,5})|(\(?\d{2,6}\)?))(-| )?(\d{3,4})(-| )?(\d{4})(( x| ext)\d{1,5}){0,1}$" 
-                placeholder="0XXXXXXXXX" name="tel" onblur="verifTel(this)">
-            <span id="telError" style="color:red; display:none">Entrez un numéro à 10 chiffres sans espace, ou laissez vide</span>
+                placeholder="0XXXXXXXXX" name="tel">
+            <span id="telError" style="color:red">Entrez un numéro à 10 chiffres sans espace, ou laissez vide</span>
         </p>
         <p>
             <label for="password1">Mot de passe</label>
-            <input id="password1" type="password" required name="password1" onblur="verifPassword(this)">
-            <span id="mdpError" style="color:red; display:none">Le mot de passe doit contenir au moins 6 caractères</span>    
+            <input id="password1" type="password" required name="password1">
+            <span id="mdpError" style="color:red">Le mot de passe doit contenir au moins 6 caractères</span>    
         </p>
         <p>
             <label for="password2">Confirmez le mot de passe</label>
-            <input id="password2" type="password" name="password2" onblur="verifPasswordEquality(this)">
-            <span id="mdpEqualityError" style="color:red; display:none">Les deux mots de passe ne sont pas identiques</span>
+            <input id="password2" type="password" name="password2">
+            <span id="mdpEqualityError" style="color:red">Les deux mots de passe ne sont pas identiques</span>
         </p>
-        <input type="submit" class="boutonEnvoi" value="Identification">
+        <input type="submit" class="boutonEnvoi" id="register" value="Identification">
         <p class="message">Déjà inscrit ? <a href="#">Connectez-vous</a></p>
     </form>
 FIN;
