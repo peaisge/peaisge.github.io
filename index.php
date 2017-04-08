@@ -44,6 +44,9 @@
     if ($_GET["todo"] == "logout"){
         logOut();
     }
+    if ($_GET["todo"] == "updatePassword"){
+        require 'utilities/changePassword.php';
+    }
     if (isset($_GET['page'])){
         $askedPage = $_GET['page'];
     }
@@ -51,7 +54,7 @@
         $askedPage = "welcome";
     }
     require 'utilities/utils.php';
-    $authorized = checkPage($askedPage);
+    $authorized = checkPage1($askedPage) || checkPage2($askedPage);
     $pageTitle = getPageTitle($askedPage);
     generateHTMLheader($pageTitle);
     ?>
@@ -77,6 +80,11 @@
         <!-- Scripts pour les formulaires de connexion et d'inscription -->
         <script src="js/form.js"></script>
         <script src="js/verifForms.js"></script>
+        <?php
+        if ($askedPage == "")
+        ?>
+        <!-- Script pour le formulaire de changement de mot de passe -->
+        <script src="js/passwordForm.js"></script>
 
     </body>
  

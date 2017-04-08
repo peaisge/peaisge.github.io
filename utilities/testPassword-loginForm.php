@@ -1,13 +1,13 @@
 <?php
 
-require('/sql/database.php');
-require('/sql/user.php');
+require('../sql/database.php');
+require('../sql/user.php');
 
 $dbh = Database::connect();
 if (isset($_POST['login']) && isset($_POST['password'])){
     $user = User::getUser($dbh, $_POST['login']);
     $password = $_POST['password'];
-    if ($user != null && User::testPassword($dbh, $user, $password)){
+    if ($user != null && User::testPassword($user, $password)){
         echo '1';
     }
     else {
@@ -15,6 +15,6 @@ if (isset($_POST['login']) && isset($_POST['password'])){
     }
 }
 else{
-    echo "0";
+    echo '0';
 }
 ?>

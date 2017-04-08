@@ -12,7 +12,13 @@ class User{
     public $wedding;
     
     public function __toString(){
-        return "[$this->login] $this->prenom $this->nom, né le $this->birthdate, $this->email, $this->tel, pour le mariage $this->wedding, a les droits $this->id";
+        if ($this->tel == NULL){
+            $separator = "";
+        }
+        else {
+            $separator = "$this->tel,";
+        }
+        return "[$this->login] $this->prenom $this->nom, né le $this->birthdate, $this->email, $separator pour le mariage $this->wedding, a les droits $this->id";
     }
     
     public static function getUser($dbh, $login){
@@ -35,7 +41,7 @@ class User{
         }
     }
     
-    public static function testPassword($dbh, $user, $password){
+    public static function testPassword($user, $password){
         $mdp = $user->password;
         return ($mdp == SHA1($password));
     }

@@ -1,12 +1,13 @@
 <?php
-echo 'bonjour';
+
 require('../sql/database.php');
 require('../sql/user.php');
-echo 'bonjour';
+$login = $_SESSION['login'];
+
 $dbh = Database::connect();
-if (isset($_GET['login']) && isset($_GET['password'])){
-    $user = User::getUser($dbh, $_GET['login']);
-    $password = $_GET['password'];
+if (isset($_POST['password'])){
+    $user = User::getUser($dbh, $login);
+    $password = $_POST['password'];
     if ($user != null && User::testPassword($user, $password)){
         echo '1';
     }

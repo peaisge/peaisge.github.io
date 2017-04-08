@@ -11,8 +11,18 @@ $(document).ready(function() {
         var loginSaisi = $("#login-connexion").val();
         $.post("utilities/testUser.php", {login: loginSaisi}, function(rep) {
             if (rep == "0"){//login inexistant
-                $("#login-connexion").css('background-color','#fba');
-                $("#loginNonVu").show();
+                if (loginSaisi.length == 0){
+                    $("#login-connexion").css('background-color','rgb(242, 242, 242)');
+                    $("#loginNonVu").hide();
+                }
+                else if(loginSaisi.length == 1){
+                    $("#login-connexion").css('background-color','#fba');
+                    $("#loginNonVu").hide();
+                }
+                else{
+                    $("#login-connexion").css('background-color','#fba');
+                    $("#loginNonVu").show();
+                }
                 loginConnexionOk = false;
             }
             else {//login utilisé
@@ -23,19 +33,29 @@ $(document).ready(function() {
         });
     });
     
-    $("password").keyup(function() {
+    $("#password").keyup(function() {
         var loginSaisi = $("#login-connexion").val();
         var passwordSaisi = $("#password").val();
-        $.post("utilities/testPassword.php", {login: loginSaisi, password: passwordSaisi}, function(rep) {
+        $.post("utilities/testPassword-loginForm.php", {login: loginSaisi, password: passwordSaisi}, function(rep) {
             if (rep == "0"){//mauvais mot de passe
-               $("#password").css('background-color','#fba'); 
-               $("mauvaisMdp").show();
-               passwordOk = false;
+                if (passwordSaisi.length == 0){
+                    $("#password").css('background-color','rgb(242, 242, 242)');
+                    $("#mauvaisMdp").hide();
+                }
+                else if (passwordSaisi.length < 6){
+                    $("#password").css('background-color','#fba');
+                    $("#mauvaisMdp").hide();
+                }
+                else{
+                    $("#password").css('background-color','#fba');
+                    $("#mauvaisMdp").show();
+                }
+                passwordOk = false;
             }
             else{
-               $("#password").css('background-color','rgb(242, 242, 242)');
-               $("mauvaisMdp").hide();
-               passwordOk = true;
+                $("#password").css('background-color','rgb(242, 242, 242)');
+                $("#mauvaisMdp").hide();
+                passwordOk = true;
             }
         });
     });
@@ -95,9 +115,6 @@ $(document).ready(function() {
                 else{
                     $("#login").css('background-color','rgb(242, 242, 242)');
                     loginOk = true;
-                    if (loginOk && emailOk && prenomOk && nomOk && dateOk && telOk && password1Ok && password2Ok){
-                        $("#register").prop('disabled', false);
-                    }
                 } 
             }
         });
@@ -117,9 +134,6 @@ $(document).ready(function() {
         else{
             $("#email").css('background-color','rgb(242, 242, 242)');
             emailOk = true;
-            if (loginOk && emailOk && prenomOk && nomOk && dateOk && telOk && password1Ok && password2Ok){
-                $("#register").prop('disabled', false);
-            }
        }
     });
     
@@ -137,9 +151,6 @@ $(document).ready(function() {
         else{
             $("#prenom").css('background-color','rgb(242, 242, 242)');
             prenomOk = true;
-            if (loginOk && emailOk && prenomOk && nomOk && dateOk && telOk && password1Ok && password2Ok){
-                $("#register").prop('disabled', false);
-            }
         }
     });
 
@@ -157,9 +168,6 @@ $(document).ready(function() {
         else{
             $("#nom").css('background-color','rgb(242, 242, 242)');
             nomOk = true;
-            if (loginOk && emailOk && prenomOk && nomOk && dateOk && telOk && password1Ok && password2Ok){
-                $("#register").prop('disabled', false);
-            }
         }
     });
     
@@ -196,9 +204,6 @@ $(document).ready(function() {
                 $("#dateError").hide();
                 $("#date").css('background-color','rgb(242, 242, 242)');
                 dateOk = true;
-                if (loginOk && emailOk && prenomOk && nomOk && dateOk && telOk && password1Ok && password2Ok){
-                    $("#register").prop('disabled', false);
-                }
         }
         }
     });
@@ -215,17 +220,11 @@ $(document).ready(function() {
             $("#telError").hide();
             $("#tel").css('background-color','rgb(242, 242, 242)');
             telOk = true;
-            if (loginOk && emailOk && prenomOk && nomOk && dateOk && telOk && password1Ok && password2Ok){
-                $("#register").prop('disabled', false);
-            }
         }
         else{
             $("#telError").hide();
             $("#tel").css('background-color','rgb(242, 242, 242)');
             telOk = true;
-            if (loginOk && emailOk && prenomOk && nomOk && dateOk && telOk && password1Ok && password2Ok){
-                $("#register").prop('disabled', false);
-            }
         }
     });
     
@@ -245,9 +244,6 @@ $(document).ready(function() {
             $("#mdpError").hide();
             $("#password1").css('background-color','rgb(242, 242, 242)');
             password1Ok = true;
-            if (loginOk && emailOk && prenomOk && nomOk && dateOk && telOk && password1Ok && password2Ok){
-                $("#register").prop('disabled', false);
-            }
         }
     });
     
@@ -275,7 +271,6 @@ $(document).ready(function() {
             password2Ok = true;
             if (loginOk && emailOk && prenomOk && nomOk && dateOk && telOk && password1Ok && password2Ok){
                 alert("loginOk="+ loginOk+ ", emailOk="+ emailOk+ ", prenomOk="+ prenomOk+ ", nomOk="+ nomOk+ ", dateOk="+ dateOk+ ", telOk="+ telOk+ ", password1Ok="+ password1Ok+ ",password2Ok="+ password2Ok);
-                $("#register").prop('disabled', false); 
             }
         }
     });
@@ -324,17 +319,6 @@ $(document).ready(function() {
      return false;
      });
      
-     
-     $("#login").keyup(function(){
-     var loginX = $("#login").val(); 
-     $.post("scripts/testUser.php",{login:loginX},function(rep){
-     if(rep=="0"){//login OK
-     $("#login").css("background-color","green");
-     }else{
-     $("#login").css("background-color","red");               
-     }
-     });
-     });
      */
 });
 

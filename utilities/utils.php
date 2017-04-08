@@ -37,6 +37,22 @@ function generateHTMLheader($title){
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="js/jquery.js"></script>
         
+        <!-- Unite Gallery -->
+        <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+        <script type='text/javascript' src='unitegallery/js/unitegallery.min.js'></script> 
+		
+        <link rel='stylesheet' href='unitegallery/css/unite-gallery.css' type='text/css' /> 
+        <script type='text/javascript' src='unitegallery/themes/default/ug-theme-default.js'></script> 
+	<link rel='stylesheet' href='unitegallery/themes/default/ug-theme-default.css' type='text/css' /> 
+            
+        <script type="text/javascript"> 
+            $(document).ready(function(){ 
+		jQuery("#gallery").unitegallery({
+			tiles_type:"nested"
+		});
+            }); 
+	</script>    
+            
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="js/bootstrap.min.js"></script>
         
@@ -54,44 +70,59 @@ function generateHTMLfooter(){
     <div id="footer" class="col-lg-8 col-lg-offset-2 text-center">
         <i class="fa fa-envelope-o fa-3x sr-contact"></i>
         <p>Nous contacter</p>
-        <p><a href="mailto:mo—dalweb.contact@gmail.com">modalweb.contact@gmail.com</a></p>
+        <p><a href="mailto:modalweb.contact@gmail.com">modalweb.contact@gmail.com</a></p>
     </div>
 FIN;
 }
 
+//pages qui apparaissent dans le menu
 $page_list = array(
-        array(
-            "name" => "welcome",
-            "title" => "Page d'accueil de notre site",
-            "menutitle" => "Accueil"
-        ),
-        array(
-            "name" => "programme",
-            "title" => "Le programme du mariage",
-            "menutitle" => "Programme"
-        ),
-        array(
-            "name" => "list",
-            "title" => "Liste des invités",
-            "menutitle" => "Invités"
-        ),
-        array(
-            "name" => "plan",
-            "title" => "Plan du site",
-            "menutitle" => "Hébergement"
-        ),
-        array(
-            "name" => "photos",
-            "title" => "Photos",
-            "menutitle" => "Photos"
-        ),
-        array(
-            "name" => "news",
-            "title" => "Informations pratiques",
-            "menutitle" => "Informations"
-        ));
+    array(
+        "name" => "welcome",
+        "title" => "Page d'accueil de notre site",
+        "menutitle" => "Accueil"
+    ),
+    array(
+        "name" => "programme",
+        "title" => "Le programme du mariage",
+        "menutitle" => "Programme"
+    ),
+    array(
+        "name" => "list",
+        "title" => "Liste des invités",
+        "menutitle" => "Invités"
+    ),
+    array(
+        "name" => "plan",
+        "title" => "Plan du site",
+        "menutitle" => "Hébergement"
+    ),
+    array(
+        "name" => "photos",
+        "title" => "Photos",
+        "menutitle" => "Photos"
+    ),
+    array(
+        "name" => "news",
+        "title" => "Informations pratiques",
+        "menutitle" => "Informations"
+    ),
+    array(
+        "name" => "rsvp",
+        "title" => "Formulaire de réponse",
+        "menutitle" => "RSVP"
+    )
+);
 
-function checkPage($askedPage){
+//autres pages
+$otherpage_list = array(
+    array(
+        "name" => "parametres",
+        "title" => "Paramètres",
+    )
+);
+
+function checkPage1($askedPage){
     global $page_list;
     foreach($page_list as $sstab){
         if ($sstab['name'] == $askedPage){
@@ -101,9 +132,25 @@ function checkPage($askedPage){
     return false;
 }
 
+function checkPage2($askedPage){
+    global $otherpage_list;
+    foreach($otherpage_list as $sstab){
+        if ($sstab['name'] == $askedPage){
+            return true;
+        }
+    }
+    return false;
+}
+
 function getPageTitle($askedPage){
     global $page_list;
+    global $otherpage_list;
     foreach($page_list as $sstab){
+        if ($sstab['name'] == $askedPage){
+            return $sstab['title'];
+        }
+    }
+    foreach($otherpage_list as $sstab){
         if ($sstab['name'] == $askedPage){
             return $sstab['title'];
         }
@@ -194,7 +241,12 @@ FIN;
     }
     
     if ($status == 1 || $status == 0){
-        echo "<li style='float:right'><a href='?todo=logout&page=".$askedPage."'>Déconnexion</a></li>";
+        if (checkPage1($askedPage)){
+            echo "<li style='float:right'><a href='?todo=logout&page=".$askedPage."'>Déconnexion</a></li>";
+        }
+        else{
+            echo "<li style='float:right'><a href='?todo=logout&page=welcome'>Déconnexion</a></li>";
+        }
     }
     else{
         echo "<li style='float:right'><a data-toggle='modal' data-target='#myModal'>Connexion</a></li>";
@@ -227,7 +279,7 @@ FIN;
             <li><a href="#">Mes mariages</a></li>
             <li><a href="#">Mes amis</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="#">Paramètres</a></li>
+            <li><a href="index.php?page=parametres">Paramètres</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="#">One more separated link</a></li>
         </ul>
@@ -236,6 +288,29 @@ FIN;
    }
     echo "</ul>";
     echo "</div>";
+}
+
+function updatePasswordForm(){
+    echo <<<FIN
+    <form id="mdpForm" class="login-form" action="?todo=updatePassword" method="post">
+        <p>
+            <label for="mdpActuel">Mot de passe actuel</label>
+            <input id="mdpActuel" type="password" name="mdpActuel" required/>
+            <span id="mauvaisMdp-password" style="color:red">Mauvais mot de passe</span>
+        </p>
+        <p>
+            <label for="mdpNouveau1">Nouveau mot de passe</label>
+            <input id="mdpNouveau1" type="password" name="mdpNouveau1" required/>
+            <span id="mdpError-password" style="color:red">Le mot de passe doit contenir au moins 6 caractères</span>
+        </p>
+        <p>
+            <label for="mdpNouveau2">Confirmez</label>
+            <input id="mdpNouveau2" type="password" name="mdpNouveau2" required/>
+            <span id="mdpEqualityError-password" style="color:red">Les deux mots de passe ne sont pas identiques</span>
+        </p>    
+        <p><input type="submit" class="boutonEnvoi" value="Enregistrer les modifications" /></p>
+    </form>
+FIN;
 }
 
 ?>

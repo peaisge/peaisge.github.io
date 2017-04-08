@@ -1,0 +1,29 @@
+h1{
+	color:black;
+	font-family: Caflisch Script, Adobe Poetica, Sanvito, Ex Ponto, Snell Roundhand, Zapf-Chancery, cursive;
+	font-weight:bold;
+	text-align: center;
+}
+h2{
+	color:grey;
+	font-family: Caflisch Script, Adobe Poetica, Sanvito, Ex Ponto, Snell Roundhand, Zapf-Chancery, cursive;
+	font-weight:bold;
+	text-align: center;
+}
+#formulaire{
+	border: 1px green;
+	padding:10px;
+        /*background-color: #c37132;*/
+        background-color: #8CB4BE;
+}
+#formulaire p{
+/*	width:800px;*/
+	padding-left: 305px;
+	text-align: left;
+	vertical-align: top;
+}
+#formulaire label.left{
+	float: left;
+	margin-left: -305px;
+	font-weight:bold;
+}
