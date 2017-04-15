@@ -44,8 +44,9 @@
     if ($_GET["todo"] == "logout"){
         logOut();
     }
-    if ($_GET["todo"] == "updatePassword"){
-        require 'utilities/changePassword.php';
+    else if ($_GET["todo"] == "updatePassword"){
+        require 'utilities/changeParametres.php';
+        updatePassword();
     }
     if (isset($_GET['page'])){
         $askedPage = $_GET['page'];
@@ -81,11 +82,11 @@
         <script src="js/form.js"></script>
         <script src="js/verifForms.js"></script>
         <?php
-        if ($askedPage == "")
+        if ($askedPage == "parametres"){
         ?>
         <!-- Script pour le formulaire de changement de mot de passe -->
         <script src="js/passwordForm.js"></script>
-
+        <?php } ?>
     </body>
  
 </html>
