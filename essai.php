@@ -1,20 +1,18 @@
 <?php
 echo 'bonjour';
-require('../sql/database.php');
-require('../sql/user.php');
-echo 'bonjour';
+require('sql/database.php');
+require('sql/invite.php');
 $dbh = Database::connect();
-if (isset($_GET['login']) && isset($_GET['password'])){
-    $user = User::getUser($dbh, $_GET['login']);
-    $password = $_GET['password'];
-    if ($user != null && User::testPassword($user, $password)){
-        echo '1';
-    }
-    else {
-        echo '0';
-    }
-}
-else{
-    echo '0';
-}
+echo 'Connecté';
+$nom = 'Lescot';
+$prenom = 'Raphael';
+$age = '18';
+$mairie = '0';
+$messe = '0';
+$diner = '0';
+$brunch = '0';
+$alimentationChoix = 'Aucune';
+$musiqueChoix = 'Disco';
+$commentaires = "NULL";
+Invite::insertInvite($dbh, $nom, $prenom, $age, $mairie, $messe, $diner, $brunch, $alimentationChoix, $musiqueChoix, $commentaires);
 ?>

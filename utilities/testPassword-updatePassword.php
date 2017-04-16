@@ -1,7 +1,7 @@
 <?php
 
-require('../sql/database.php');
-require('../sql/user.php');
+include(dirname(__FILE__).'../sql/database.php');
+include(dirname(__FILE__).'../sql/user.php');
 $login = $_SESSION['login'];
 
 $dbh = Database::connect();

@@ -1,3 +1,5 @@
+<?php
+echo <<<FIN
 <form id="mdpForm" class="login-form" action="?todo=updatePassword" method="post">
     <p>
         <label for="mdpActuel">Mot de passe actuel</label>
@@ -16,5 +18,7 @@
     </p>    
     <p><input type="submit" class="boutonEnvoi" value="Enregistrer les modifications" /></p>
 </form>
+FIN;
+?>
 
 

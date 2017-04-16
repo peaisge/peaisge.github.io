@@ -1,5 +1,4 @@
 $(document).ready(function(){
-   
     var mdpActuelOk;
     var mdpNouveau1Ok;
     var mdpNouveau2Ok;

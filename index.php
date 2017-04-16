@@ -8,6 +8,9 @@
 <!DOCTYPE html>
 <html>
     <?php
+    require 'sql/database.php';
+    require 'sql/user.php';
+    require 'sql/invite.php';
     if(isset($_POST["login"]) && $_POST["login"] != "" &&
        isset($_POST["email"]) && $_POST["email"] != "" &&
        isset($_POST["prenom"]) && $_POST["prenom"] != "" &&
@@ -15,9 +18,7 @@
        isset($_POST["date"]) && $_POST["date"] != "" &&
        isset($_POST["password1"]) && $_POST["password1"] != "" &&
        isset($_POST["password2"]) && $_POST["password2"] != "") {
-        require 'sql/database.php';
         $dbh = Database::connect();
-        require 'sql/user.php';
         $user = User::getUser($dbh, $_POST['login']);
         if ($user == null){
             if (isset($_POST["tel"]) && $_POST["tel"] != ""){
@@ -33,11 +34,76 @@
         }
         $dbh = null;
     }
+
+    //Traitement du formulaire de réponse
+    if (isset($_POST["nbguests-cache"])){
+        $nb = $_POST["nbguests-cache"];
+        echo $nb;
+        $bienRempli = true;
+        for ($i=1; $i<=$nb; $i++){
+            $bienRempli = $bienRempli &&
+                    isset($_POST["nom-$i"]) && $_POST["nom-$i"] != "" &&
+                    isset($_POST["prenom-$i"]) && $_POST["prenom-$i"] != "" &&
+                    isset($_POST["age-$i"]) && $_POST["age-$i"] != "";        
+        }
+        if ($bienRempli){
+            echo 'c bon';
+            $dbh = Database::connect();
+            echo 'Connecté';
+            for ($i=1; $i<=$nb; $i++){ 
+                $nom = $_POST["nom-$i"];
+                $prenom = $_POST["prenom-$i"];
+                $age = $_POST["age-$i"];
+                if (isset($_POST["mairie"])){
+                    $mairie = 1;
+                }
+                else{
+                    $mairie = 0;
+                }
+                if (isset($_POST["messe"])){
+                    $messe = 1;
+                }
+                else{
+                    $messe = 0;
+                }
+                if (isset($_POST["diner"])){
+                    $diner = 1;
+                }
+                else{
+                    $diner = 0;
+                }
+                if (isset($_POST["brunch"])){
+                    $brunch = 1;
+                }
+                else{
+                    $brunch = 0;
+                }
+                $alimentation = $_POST["alimentation-$i"];
+                foreach($alimentation as $choix){
+                    $alimentationChoix = $choix;
+                }
+                echo $alimentationChoix;
+                $musique = $_POST["musique-$i"];
+                foreach($musique as $choix){
+                    $musiqueChoix = $choix;
+                }
+                echo $musiqueChoix;
+                if ($i == 1){
+                    $commentaire = $_POST["commentaires"];
+                }
+                else{
+                    $commentaire = "NULL";
+                }
+                Invite::insertInvite($dbh, $nom, $prenom, $age, $mairie, $messe, $diner, $brunch, $alimentationChoix, $musiqueChoix, $commentaire);
+            }
+            $dbh = null;
+        }
+    }
+
     require 'utilities/logInOut.php';
     if (!isset($_SESSION['login']) && $_GET["todo"] == "login"){
         //print_r($_POST);
-        require 'sql/database.php';
-        $dbh = Database::connect();        
+        $dbh = Database::connect();     
         logIn($dbh, $_POST['login-connexion']);
         $dbh = null;
     }
@@ -45,8 +111,14 @@
         logOut();
     }
     else if ($_GET["todo"] == "updatePassword"){
-        require 'utilities/changeParametres.php';
-        updatePassword();
+        $dbh = Database::connect();
+        User::updatePassword($dbh, $_SESSION['login'], SHA1($_POST['mdpNouveau2']));
+        $dbh = null;
+    }
+    else if ($_GET["todo"] == "delete"){
+        $dbh = Database::connect();
+        User::deleteAccount($dbh, $_SESSION['login']);
+        $dbh = null;
     }
     if (isset($_GET['page'])){
         $askedPage = $_GET['page'];

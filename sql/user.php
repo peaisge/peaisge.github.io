@@ -45,4 +45,16 @@ class User{
         $mdp = $user->password;
         return ($mdp == SHA1($password));
     }
+    
+    public static function updatePassword($dbh, $login, $passwordCrypte){
+        $sth = $dbh->prepare("UPDATE `users` SET `password`=? WHERE `login`=?");
+        $sth->execute(array($passwordCrypte, $login));
+        echo "Votre mot de passe a été modifié";
+    }
+    
+    public static function deleteAccount($dbh, $login){
+        $sth = $dbh->prepare("DELETE FROM `users` WHERE `login`=?");
+        $sth->execute(array($login));
+        echo "Votre compte a été supprimé";
+    }
 }

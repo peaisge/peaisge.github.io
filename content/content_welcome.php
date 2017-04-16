@@ -1,12 +1,12 @@
 <div class="jumbotron">
-<h1>Titre qui ne dépend pas de la page</h1>
-<p>Détails supplémentaires qui ne dépendent pas de la page</p>
+<h1>Mariage de Lucas Malherbe</h1>
+<p>Vous êtes conviés le 28 juin 2017</p>
 </div>
 
 <div id="content">
     <div>
         <h1><?php $pageTitle ?></h1>
-        <p>Contenu du corps principal de la page, dépend de la page affichée</p>
+        <p></p>
     </div>
 </div>
 

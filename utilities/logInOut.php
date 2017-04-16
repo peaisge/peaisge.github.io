@@ -1,11 +1,8 @@
 <?php
-session_start();
-
 function logIn($dbh, $login){
-    require 'sql/user.php';
+    include(dirname(__FILE__).'../sql/user.php');
     $user = User::getUser($dbh, $login);
     if ($user != null && User::testPassword($user, $_POST["password"])){
-        //echo 'Connexion login réussie'; 
         $_SESSION['loggedIn'] = true;
         $_SESSION['login'] = $user->login;
         $_SESSION['status'] = $user->id;
